@@ -19,18 +19,21 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {getAddress} from "@/shared/api/generated/address/address.ts";
 
 export default function Home() {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     const {data: accounts, isLoading} = useQuery({
         queryKey: ["accounts"],
-        queryFn: () => getAddress().getAddressesAddressAllGet()
-    })
+        queryFn: () => getAddress().allAddressesAddressAllGet()
+    });
+
     const data = accounts || [];
+
     const mutation = useMutation({
-        mutationFn: (addressId: number) => getAddress().deleteAddressAddressDeleteDelete({addressId: addressId}),
-        onSuccess:() => {
-            void queryClient.invalidateQueries({queryKey: ["accounts"]})
+        mutationFn: (addressId: number) => getAddress().deleteAddressAddressDeleteDelete({addressId}),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({queryKey: ["accounts"]});
         }
-    })
+    });
+
     const columns: ColumnDef<Account>[] = [
         {
             accessorKey: "id",
@@ -47,46 +50,46 @@ export default function Home() {
         {
             id: "actions",
             header: "Actions",
-            cell: ({row}) => {
-                return (
-                    <div className="flex gap-x-3">
-                        <EditAccountButton account={row.original}/>
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button variant="destructive" size="icon">
-                                    <Trash className="size-4"/>
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This action cannot be undone. This will permanently delete data and remove this data from our servers.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => mutation.mutate(row.original.id)}>Delete</AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </div>
-                )
-            }
+            cell: ({row}) => (
+                <div className="flex gap-x-3">
+                    <EditAccountButton account={row.original}/>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="destructive" size="icon">
+                                <Trash className="size-4"/>
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete data and remove this data
+                                    from our servers.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                    onClick={() => mutation.mutate(row.original.id)}>Delete</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
+            )
         }
-    ]
+    ];
 
     return (
         <Card>
-            <CreateAccountModal />
-            <EditAccountModal />
+            <CreateAccountModal/>
+            <EditAccountModal/>
             <div className="flex items-center justify-between">
                 <CardHeader className="px-6 pt-6 pb-1">
                     <CardTitle>Accounts</CardTitle>
                     <CardDescription>All available accounts</CardDescription>
                 </CardHeader>
                 <div className="flex px-6 pt-6 pb-1">
-                    <CreateAccountButton />
+                    <CreateAccountButton/>
                 </div>
             </div>
             <CardContent>

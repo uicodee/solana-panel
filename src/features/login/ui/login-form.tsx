@@ -16,15 +16,15 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {getAuthentication} from "@/shared/api/generated/authentication/authentication.ts";
-import {LoginUser} from "@/shared/api/model";
+import {LoginUser, Token} from "@/shared/api/model";
 
 export const LoginForm = () => {
     const queryClient = useQueryClient()
     const mutation = useMutation({
         mutationFn: (loginUser: LoginUser) => getAuthentication().loginUserLoginPost(loginUser),
-        onSuccess: (response) => {
-            console.log(response)
-            localStorage.setItem("accessToken", response.data.accessToken)
+        onSuccess: (response: Token) => {
+            console.log(response.access_token)
+            localStorage.setItem("accessToken", response.access_token)
         }
     })
     const form = useForm<z.infer<typeof formSchema>>({

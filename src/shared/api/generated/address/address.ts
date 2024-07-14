@@ -5,7 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 import type {
-  Address,
+  AddressInput,
+  AddressOutput,
   DeleteAddressAddressDeleteDeleteParams,
   EditAddress
 } from '../../model'
@@ -18,36 +19,39 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
   export const getAddress = () => {
 /**
- * @summary Get Addresses
+ * Get all addresses
+ * @summary All Addresses
  */
-const getAddressesAddressAllGet = (
+const allAddressesAddressAllGet = (
     
  options?: SecondParameter<typeof createInstance>,) => {
-      return createInstance<unknown>(
+      return createInstance<AddressOutput[]>(
       {url: `/address/all`, method: 'GET'
     },
       options);
     }
   /**
+ * New address
  * @summary New Address
  */
 const newAddressAddressNewPost = (
-    address: BodyType<Address>,
+    addressInput: BodyType<AddressInput>,
  options?: SecondParameter<typeof createInstance>,) => {
-      return createInstance<unknown>(
+      return createInstance<AddressOutput>(
       {url: `/address/new`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
-      data: address
+      data: addressInput
     },
       options);
     }
   /**
+ * Edit address
  * @summary Edit Address
  */
 const editAddressAddressEditPut = (
     editAddress: BodyType<EditAddress>,
  options?: SecondParameter<typeof createInstance>,) => {
-      return createInstance<unknown>(
+      return createInstance<AddressOutput>(
       {url: `/address/edit`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: editAddress
@@ -66,8 +70,8 @@ const deleteAddressAddressDeleteDelete = (
     },
       options);
     }
-  return {getAddressesAddressAllGet,newAddressAddressNewPost,editAddressAddressEditPut,deleteAddressAddressDeleteDelete}};
-export type GetAddressesAddressAllGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAddress>['getAddressesAddressAllGet']>>>
+  return {allAddressesAddressAllGet,newAddressAddressNewPost,editAddressAddressEditPut,deleteAddressAddressDeleteDelete}};
+export type AllAddressesAddressAllGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAddress>['allAddressesAddressAllGet']>>>
 export type NewAddressAddressNewPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAddress>['newAddressAddressNewPost']>>>
 export type EditAddressAddressEditPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAddress>['editAddressAddressEditPut']>>>
 export type DeleteAddressAddressDeleteDeleteResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAddress>['deleteAddressAddressDeleteDelete']>>>

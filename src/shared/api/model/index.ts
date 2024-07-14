@@ -6,6 +6,8 @@
  */
 
 export * from './address';
+export * from './addressInput';
+export * from './addressOutput';
 export * from './deleteAddressAddressDeleteDeleteParams';
 export * from './editAddress';
 export * from './hTTPValidationError';
