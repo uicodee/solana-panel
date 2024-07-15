@@ -5,7 +5,7 @@ import {
     ColumnFiltersState,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
+    getPaginationRowModel, getSortedRowModel, SortingState,
     VisibilityState
 } from "@tanstack/table-core";
 import {flexRender, useReactTable} from "@tanstack/react-table";
@@ -39,6 +39,7 @@ export function DataTable<TData, TValue>({
                                              onRowClick,
                                              setData
                                          }: DataTableProps<TData, TValue>) {
+    const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
         []
     )
@@ -55,11 +56,14 @@ export function DataTable<TData, TValue>({
         onColumnVisibilityChange: setColumnVisibility,
         getFilteredRowModel: getFilteredRowModel(),
         onRowSelectionChange: setRowSelection,
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
 
         state: {
             columnFilters,
             columnVisibility,
-            rowSelection
+            rowSelection,
+             sorting,
         },
     })
     const [filterColumn, setFilterColumn] = useState<string>(table.getAllColumns()[1].id)
@@ -107,7 +111,7 @@ export function DataTable<TData, TValue>({
                 {table.getFilteredSelectedRowModel().rows.length !== 0 &&
                     // onClick={() => onDelete(table.getFilteredSelectedRowModel().rows.map(item => item.original))}
                     <Button size="sm"
-                            ><Trash
+                    ><Trash
                         className="h-4 w-4"/></Button>}
             </div>
             <div className="border rounded-md">

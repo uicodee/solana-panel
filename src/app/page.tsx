@@ -4,7 +4,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/share
 import {DataTable} from "@/shared/ui/data-table";
 import {ColumnDef} from "@tanstack/table-core";
 import {Button} from "@/shared/ui/button";
-import {Trash} from "lucide-react";
+import {ArrowUpDown, Trash} from "lucide-react";
 import {
     AlertDialog, AlertDialogAction, AlertDialogCancel,
     AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
@@ -37,11 +37,31 @@ export default function Home() {
     const columns: ColumnDef<Account>[] = [
         {
             accessorKey: "id",
-            header: "ID"
+            header: ({column}) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        ID
+                        <ArrowUpDown className="ml-2 h-4 w-4"/>
+                    </Button>
+                )
+            },
         },
         {
             accessorKey: "title",
-            header: "Title"
+            header: ({column}) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Title
+                        <ArrowUpDown className="ml-2 h-4 w-4"/>
+                    </Button>
+                )
+            },
         },
         {
             accessorKey: "address",
